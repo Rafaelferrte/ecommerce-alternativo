@@ -1,0 +1,14 @@
+{
+    "name": "rafaelferrte/ecommerce-alternativo",
+    "description": "E-commerce especializado em roupas alternativas",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
