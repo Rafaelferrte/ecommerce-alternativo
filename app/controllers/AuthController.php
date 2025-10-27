@@ -22,7 +22,7 @@ class AuthController extends Controller {
                 'confirm_password_err' => ''
             ];
             
-            // Validation
+            // Validação
             if (empty($data['name'])) {
                 $data['name_err'] = 'Por favor, informe o nome';
             }
@@ -45,7 +45,7 @@ class AuthController extends Controller {
                 $data['confirm_password_err'] = 'As senhas não conferem';
             }
             
-            // No errors
+            // Sem erros
             if (empty($data['name_err']) && empty($data['email_err']) && 
                 empty($data['password_err']) && empty($data['confirm_password_err'])) {
                 
@@ -81,7 +81,7 @@ class AuthController extends Controller {
                 'password_err' => ''
             ];
             
-            // Validation
+            // Validação
             if (empty($data['email'])) {
                 $data['email_err'] = 'Por favor, informe o email';
             }
@@ -90,13 +90,21 @@ class AuthController extends Controller {
                 $data['password_err'] = 'Por favor, informe a senha';
             }
             
-            // Check user
+            // Verificar usuário
             if (empty($data['email_err']) && empty($data['password_err'])) {
                 $user = $this->userModel->login($data['email'], $data['password']);
                 
                 if ($user) {
                     $this->createUserSession($user);
-                    $this->redirect('');
+                    
+                    // Redirecionar para a página anterior ou home
+                    if (isset($_SESSION['redirect_url'])) {
+                        $redirect_url = $_SESSION['redirect_url'];
+                        unset($_SESSION['redirect_url']);
+                        $this->redirect($redirect_url);
+                    } else {
+                        $this->redirect('');
+                    }
                 } else {
                     $data['password_err'] = 'Email ou senha incorretos';
                 }
@@ -125,5 +133,22 @@ class AuthController extends Controller {
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_name'] = $user->name;
         $_SESSION['user_email'] = $user->email;
+    }
+    
+    public function profile() {
+        if (!isset($_SESSION['user_id'])) {
+            $this->redirect('auth/login');
+            return;
+        }
+        
+        $data = [
+            'title' => 'Meu Perfil - UrbanAlternative',
+            'user' => [
+                'name' => $_SESSION['user_name'],
+                'email' => $_SESSION['user_email']
+            ]
+        ];
+        
+        $this->view('auth/profile', $data);
     }
 }

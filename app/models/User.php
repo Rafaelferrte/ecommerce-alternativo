@@ -3,76 +3,42 @@ namespace App\Models;
 
 use App\Core\Database;
 
-class Product {
+class User {
     private $db;
     
     public function __construct() {
         $this->db = new Database();
     }
     
-    public function getAll($page = 1) {
-        $offset = ($page - 1) * PRODUCTS_PER_PAGE;
-        
+    public function register($data) {
         $this->db->query("
-            SELECT p.*, c.name as category_name 
-            FROM products p 
-            LEFT JOIN categories c ON p.category_id = c.id 
-            WHERE p.active = 1 
-            ORDER BY p.created_at DESC 
-            LIMIT :limit OFFSET :offset
+            INSERT INTO users (name, email, password, created_at) 
+            VALUES (:name, :email, :password, NOW())
         ");
-        $this->db->bind(':limit', PRODUCTS_PER_PAGE);
-        $this->db->bind(':offset', $offset);
-        return $this->db->resultSet();
+        
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':password', password_hash($data['password'], PASSWORD_DEFAULT));
+        
+        return $this->db->execute();
     }
     
-    public function getById($id) {
-        $this->db->query("
-            SELECT p.*, c.name as category_name 
-            FROM products p 
-            LEFT JOIN categories c ON p.category_id = c.id 
-            WHERE p.id = :id AND p.active = 1
-        ");
-        $this->db->bind(':id', $id);
+    public function login($email, $password) {
+        $this->db->query("SELECT * FROM users WHERE email = :email");
+        $this->db->bind(':email', $email);
+        
+        $user = $this->db->single();
+        
+        if ($user && password_verify($password, $user->password)) {
+            return $user;
+        }
+        
+        return false;
+    }
+    
+    public function findByEmail($email) {
+        $this->db->query("SELECT * FROM users WHERE email = :email");
+        $this->db->bind(':email', $email);
         return $this->db->single();
-    }
-    
-    public function getByCategory($category_id, $page = 1) {
-        $offset = ($page - 1) * PRODUCTS_PER_PAGE;
-        
-        $this->db->query("
-            SELECT p.*, c.name as category_name 
-            FROM products p 
-            LEFT JOIN categories c ON p.category_id = c.id 
-            WHERE p.category_id = :category_id AND p.active = 1 
-            ORDER BY p.created_at DESC 
-            LIMIT :limit OFFSET :offset
-        ");
-        $this->db->bind(':category_id', $category_id);
-        $this->db->bind(':limit', PRODUCTS_PER_PAGE);
-        $this->db->bind(':offset', $offset);
-        return $this->db->resultSet();
-    }
-    
-    public function search($term, $page = 1) {
-        $offset = ($page - 1) * PRODUCTS_PER_PAGE;
-        
-        $this->db->query("
-            SELECT p.*, c.name as category_name 
-            FROM products p 
-            LEFT JOIN categories c ON p.category_id = c.id 
-            WHERE (p.name LIKE :term OR p.description LIKE :term) AND p.active = 1 
-            ORDER BY p.created_at DESC 
-            LIMIT :limit OFFSET :offset
-        ");
-        $this->db->bind(':term', "%{$term}%");
-        $this->db->bind(':limit', PRODUCTS_PER_PAGE);
-        $this->db->bind(':offset', $offset);
-        return $this->db->resultSet();
-    }
-    
-    public function getTotalProducts() {
-        $this->db->query("SELECT COUNT(*) as total FROM products WHERE active = 1");
-        return $this->db->single()->total;
     }
 }

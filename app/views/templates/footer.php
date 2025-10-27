@@ -2,80 +2,97 @@
     
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-content">
                 <div class="footer-section">
-                    <h3>⚡ DARKSTYLE</h3>
-                    <p>Roupas que desafiam o convencional desde 2025</p>
+                    <h3>URBANALTERNATIVE</h3>
+                    <p>Vestuário técnico e casual para o estilo de vida urbano contemporâneo.</p>
                     <div class="social-links">
-                        <a href="#" class="social-link">🦇</a>
-                        <a href="#" class="social-link">⚡</a>
-                        <a href="#" class="social-link">🎸</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Facebook</a>
+                        <a href="#">Twitter</a>
                     </div>
                 </div>
                 <div class="footer-section">
-                    <h4>CATEGORIAS</h4>
-                    <a href="#">Gótico</a>
-                    <a href="#">Punk</a>
-                    <a href="#">Rock</a>
-                    <a href="#">Metal</a>
+                    <h4>PRODUTOS</h4>
+                    <a href="#">Casacos</a>
+                    <a href="#">Jaquetas</a>
+                    <a href="#">Camisetas</a>
+                    <a href="#">Calças</a>
+                    <a href="#">Acessórios</a>
+                </div>
+                <div class="footer-section">
+                    <h4>AJUDA</h4>
+                    <a href="#">Trocas e Devoluções</a>
+                    <a href="#">Entregas</a>
+                    <a href="#">Tabela de Medidas</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Contato</a>
+                </div>
+                <div class="footer-section">
+                    <h4>EMPRESA</h4>
+                    <a href="#">Sobre Nós</a>
+                    <a href="#">Sustentabilidade</a>
+                    <a href="#">Trabalhe Conosco</a>
+                    <a href="#">Imprensa</a>
                 </div>
                 <div class="footer-section">
                     <h4>ATENDIMENTO</h4>
-                    <a href="#">Trocas & Devoluções</a>
-                    <a href="#">Tamanhos</a>
-                    <a href="#">Entregas</a>
-                    <a href="#">FAQ</a>
-                </div>
-                <div class="footer-section">
-                    <h4>CONTATO</h4>
-                    <p>📧 contato@darkstyle.com</p>
-                    <p>📱 (11) 6666-6666</p>
-                    <p>🕒 Seg-Sex: 14h-22h</p>
+                    <p>📞 (11) 4004-2000</p>
+                    <p>✉️ contato@urbanalternative.com</p>
+                    <p>🕒 Segunda a Sexta: 9h às 18h</p>
                 </div>
             </div>
+            
             <div class="footer-bottom">
-                <p>&copy; 2025 DARKSTYLE - Todos os direitos reservados. | Desafiando o padrão desde sempre.</p>
+                <div class="payment-methods">
+                    <span>Formas de Pagamento:</span>
+                    <span>💳</span>
+                    <span>📱</span>
+                    <span>🏦</span>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 UrbanAlternative. Todos os direitos reservados.</p>
+                </div>
             </div>
         </div>
     </footer>
     
     <style>
         .footer {
-            background: #111;
-            border-top: 2px solid #ff0000;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e5e5;
             padding: 3rem 0 1rem;
         }
         
-        .footer-grid {
+        .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
             margin-bottom: 2rem;
         }
         
         .footer-section h3,
         .footer-section h4 {
-            color: #ff0000;
             margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-weight: 600;
         }
         
         .footer-section a {
-            color: #888;
-            text-decoration: none;
             display: block;
+            color: #666;
+            text-decoration: none;
             margin-bottom: 0.5rem;
             transition: color 0.3s ease;
         }
         
         .footer-section a:hover {
-            color: #ff0000;
+            color: #000;
         }
         
         .footer-section p {
-            color: #888;
+            color: #666;
             margin-bottom: 0.5rem;
+            line-height: 1.4;
         }
         
         .social-links {
@@ -84,22 +101,38 @@
             margin-top: 1rem;
         }
         
-        .social-link {
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-        }
-        
-        .social-link:hover {
-            transform: scale(1.2);
-            color: #ff0000;
+        .social-links a {
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
         }
         
         .footer-bottom {
-            border-top: 1px solid #333;
+            border-top: 1px solid #e5e5e5;
             padding-top: 1rem;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .payment-methods {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+        
+        .footer-copyright {
             color: #666;
             font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
         }
     </style>
 </body>

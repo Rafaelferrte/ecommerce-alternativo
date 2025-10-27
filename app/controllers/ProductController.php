@@ -9,8 +9,8 @@ class ProductController extends Controller {
         $this->productModel = $this->model('Product');
     }
     
-    public function show($id) {
-        $product = $this->productModel->getById($id);
+    public function show($slug) {
+        $product = $this->productModel->getBySlug($slug);
         
         if (!$product) {
             $this->view('errors/404');
@@ -18,35 +18,38 @@ class ProductController extends Controller {
         }
         
         $data = [
-            'title' => $product->name,
+            'title' => $product->name . ' - UrbanAlternative',
             'product' => $product
         ];
         
         $this->view('products/show', $data);
     }
     
-    public function category($category_id, $page = 1) {
-        $products = $this->productModel->getByCategory($category_id, $page);
+    public function category($slug) {
+        $products = $this->productModel->getByCategory($slug);
+        $categories = $this->productModel->getCategories();
         
         $data = [
-            'title' => 'Categoria',
+            'title' => 'Categoria - UrbanAlternative',
             'products' => $products,
-            'currentPage' => $page
+            'categories' => $categories,
+            'current_category' => $slug
         ];
         
         $this->view('products/category', $data);
     }
     
-    public function search($page = 1) {
+    public function search() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $term = trim($_POST['search']);
-            $products = $this->productModel->search($term, $page);
+            $products = $this->productModel->search($term);
+            $categories = $this->productModel->getCategories();
             
             $data = [
-                'title' => 'Busca: ' . $term,
+                'title' => 'Busca: ' . $term . ' - UrbanAlternative',
                 'products' => $products,
-                'searchTerm' => $term,
-                'currentPage' => $page
+                'categories' => $categories,
+                'search_term' => $term
             ];
             
             $this->view('products/search', $data);
